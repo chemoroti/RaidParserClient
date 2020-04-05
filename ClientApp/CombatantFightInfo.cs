@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace DamageParser.ClientApp
 {
+    [Serializable]
     public class CombatantFightInfo
     {
-        private string CombatantName { get; set; }
-        private DateTime StartTime { get; set; }
-        private int TotalDamage { get; set; }
-        private int DPS { get; set; }
+        public string OpponentName { get; set; }
+        public string CombatantName { get; set; }
+        public DateTime StartTime { get; set; }
+        public int TotalDamage { get; set; }
+        public int DPS { get; set; }
+        public string RaidId = "123";
         public CombatantFightInfo(Interaction interaction, string combatantName)
         {
+            OpponentName = interaction.OpponentName;
             CombatantName = combatantName;
             StartTime = interaction.Time;
             UpdateDamageStats(interaction.HitAmount);

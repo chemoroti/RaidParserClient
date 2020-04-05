@@ -10,3 +10,8 @@ C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.pdb
 C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.FightOverlay.resources
 C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.RaidParser.resources
 C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.FightOverlayPosition.resources
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\websocket-sharp.dll
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\websocket-sharp.xml
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.csproj.CopyComplete
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\Newtonsoft.Json.xml

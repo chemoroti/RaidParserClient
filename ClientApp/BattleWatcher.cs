@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using WebSocketSharp;
 
 namespace DamageParser.ClientApp
 {
@@ -26,6 +28,7 @@ namespace DamageParser.ClientApp
 
         private Thread _battleTimeoutThread;
         private Thread _battleUpdateThread;
+        private Thread _webSocketThread;
         public BattleWatcher(FileWatcher fileWatcher, string playerName)
         {
             _fileWatcher = fileWatcher;
@@ -41,6 +44,43 @@ namespace DamageParser.ClientApp
             _battleTimeoutThread.Start();
             _battleUpdateThread = new Thread(() => BattleUpdater());
             _battleUpdateThread.Start();
+            _webSocketThread = new Thread(() => WebSocketConnection());
+            _webSocketThread.Start();
+        }
+
+        private void WebSocketConnection()
+        {
+            var ws = new WebSocket("ws://localhost:4649/BattleAggregator");
+            ws.OnMessage += (sender, e) =>
+            {
+                
+            };
+
+            ws.OnError += (sender, e) => {
+                Console.WriteLine("error");
+            };
+
+            ws.OnClose += (sender, e) => {
+                Console.WriteLine("close");
+            };
+
+            ws.OnOpen += (sender, e) => {
+                Console.WriteLine("opened");
+            };
+
+            ws.EmitOnPing = true;
+
+            ws.Connect();
+            while (true)
+            {
+                if(_fightOngoing)
+                {
+                    string serialized = JsonConvert.SerializeObject(_fightInfo);
+                    ws.Send(serialized);
+                }
+
+                Thread.Sleep(5000);
+            }
         }
 
         //thread wakes up and notifies all listeners of updates to _fightInfo

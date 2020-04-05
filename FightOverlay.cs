@@ -61,7 +61,7 @@ namespace DamageParser
             gridInfo.Header = GetOutputRow(Watcher.GetBattleHeaderInfo(), true);
 
             List<Label> combatantOutputs = new List<Label>();
-            List<CombatantFightInfo> orderedCombatants = Combatants.Values.OrderByDescending(v => v.GetTotalDamage()).ToList();
+            List<CombatantFightInfo> orderedCombatants = Combatants.Values.Where(c => c.OpponentName == Watcher.GetOpponentName()).OrderByDescending(v => v.GetTotalDamage()).ToList();
 
             int counter = 1;
             foreach (CombatantFightInfo combatant in orderedCombatants)
@@ -172,6 +172,11 @@ namespace DamageParser
         {
             public Label Header;
             public List<Label> CombatantOutputs;
+        }
+
+        private void OverlayFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }

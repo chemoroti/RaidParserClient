@@ -38,14 +38,15 @@
             this.overlayFlowLayoutPanel.Name = "overlayFlowLayoutPanel";
             this.overlayFlowLayoutPanel.Size = new System.Drawing.Size(800, 450);
             this.overlayFlowLayoutPanel.TabIndex = 0;
+            this.overlayFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OverlayFlowLayoutPanel_Paint);
             // 
-            // Overlay
+            // FightOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.overlayFlowLayoutPanel);
-            this.Name = "Overlay";
+            this.Name = "FightOverlay";
             this.Text = "Overlay";
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.ResumeLayout(false);
