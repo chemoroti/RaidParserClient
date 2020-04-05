@@ -1,0 +1,12 @@
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\DamageParser.exe.config
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\DamageParser.exe
+C:\Users\Dayton\source\repos\DamageParser\bin\Debug\DamageParser.pdb
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.csprojAssemblyReference.cache
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.Properties.Resources.resources
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.csproj.GenerateResource.cache
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.csproj.CoreCompileInputs.cache
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.exe
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.pdb
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.FightOverlay.resources
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.RaidParser.resources
+C:\Users\Dayton\source\repos\DamageParser\obj\Debug\DamageParser.FightOverlayPosition.resources
