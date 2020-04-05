@@ -71,9 +71,11 @@ namespace DamageParser.ClientApp
             IEnumerable<string> result = readToEnd.Split('\n').Where(l => 
                 Regex.IsMatch(l, EnumsAndConstants.MeleeRegex) ||
                 Regex.IsMatch(l, EnumsAndConstants.SpellRegex) ||
+                (!string.IsNullOrEmpty(EnumsAndConstants.PetAttackRegex) && Regex.IsMatch(l, EnumsAndConstants.PetAttackRegex)) ||
                 Regex.IsMatch(l, EnumsAndConstants.MyKillshotRegex) ||
                 Regex.IsMatch(l, EnumsAndConstants.OtherKillshotRegex) ||
-                Regex.IsMatch(l, EnumsAndConstants.DiedRegex)
+                Regex.IsMatch(l, EnumsAndConstants.DiedRegex) || 
+                Regex.IsMatch(l, EnumsAndConstants.PetLeaderRegex)
             );
             return result;
         }

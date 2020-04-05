@@ -52,6 +52,8 @@
     <Compile Include="ClientApp\FileWatcher.cs" />
     <Compile Include="ClientApp\IInteraction.cs" />
     <Compile Include="ClientApp\MeleeInteraction.cs" />
+    <Compile Include="ClientApp\PetMeleeInteraction.cs" />
+    <Compile Include="ClientApp\PetWatcher.cs" />
     <Compile Include="ClientApp\SpellInteraction.cs" />
     <Compile Include="FightOverlayPosition.cs">
       <SubType>Form</SubType>

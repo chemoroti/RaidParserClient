@@ -47,6 +47,10 @@ namespace DamageParser
                 Thread battleWatcherThread = new Thread(() => battleWatcher.Start());
                 battleWatcherThread.Start();
 
+                PetWatcher petWatcher = new PetWatcher(fileWatcher, battleWatcher, CharacterName);
+                Thread petWatcherThread = new Thread(() => petWatcher.Start());
+                petWatcherThread.Start();
+
                 _overlay.AddBattleWatcher(battleWatcher);
             }
         }

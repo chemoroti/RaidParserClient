@@ -43,7 +43,6 @@ namespace DamageParser.ClientApp
             _battleUpdateThread.Start();
         }
 
-
         //thread wakes up and notifies all listeners of updates to _fightInfo
         private void BattleUpdater()
         {
@@ -77,14 +76,16 @@ namespace DamageParser.ClientApp
 
         private void OnLogFileUpdateEvent(IEnumerable<string> newLines)
         {
+            Match deadRegex = null;
             foreach(string line in newLines)
             {
                 Interaction interaction = null;
-                if(Regex.IsMatch(line, EnumsAndConstants.MeleeRegex))
+                if (Regex.IsMatch(line, EnumsAndConstants.MeleeRegex))
                     interaction = new MeleeInteraction(line);
                 else if (Regex.IsMatch(line, EnumsAndConstants.SpellRegex))
                     interaction = new SpellInteraction(line);
-
+                else if (Regex.IsMatch(line, EnumsAndConstants.PetAttackRegex) && !string.IsNullOrEmpty(EnumsAndConstants.PetAttackRegex))
+                    interaction = new PetMeleeInteraction(line);
                 if(interaction != null)
                 {
                     if (_currentOpponent == null)
@@ -98,7 +99,7 @@ namespace DamageParser.ClientApp
                 }
                 else 
                 {
-                    Match deadRegex = Regex.Match(line, EnumsAndConstants.MyKillshotRegex);
+                    deadRegex = Regex.Match(line, EnumsAndConstants.MyKillshotRegex);
                     if (!deadRegex.Success)
                         deadRegex = Regex.Match(line, EnumsAndConstants.OtherKillshotRegex);
                     if (!deadRegex.Success)
@@ -140,6 +141,11 @@ namespace DamageParser.ClientApp
             _currentOpponent = null;
             _fightInfo = null;
             _fightOngoing = false;
+        }
+
+        public void SetPet(string petName)
+        {
+            EnumsAndConstants.PetAttackRegex = $@"\[(.*)\] {petName} (\S+) (.+) for (\d+) points of damage.";
         }
 
         public string GetOpponentName()

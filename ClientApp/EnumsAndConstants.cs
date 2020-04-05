@@ -20,11 +20,13 @@ namespace DamageParser.ClientApp
     }
     public static class EnumsAndConstants
     {
-        public static string MeleeRegex = @"\[(.*)\] You (\S+) (.+) for (\d+) points of damage.";
-        public static string SpellRegex = @"\[(.*)\] (.+) was hit by non-melee for (\d+) points of damage.";
-        public static string LogFileCharNameRegex = $"eqlog_([a-zA-Z]+)(.*)";
-        public static string MyKillshotRegex = @"\[.*\] You have slain (.*)!";
-        public static string OtherKillshotRegex = @"\[.*\] (.*) has been slain by .*!";
-        public static string DiedRegex = @"\[.*\] (.*) died.";
+        public const string MeleeRegex = @"\[(.*)\] You (\S+) (.+) for (\d+) points of damage.";
+        public const string SpellRegex = @"\[(.*)\] (.+) was hit by non-melee for (\d+) points of damage.";
+        public const string LogFileCharNameRegex = @"eqlog_([a-zA-Z]+)(.*)";
+        public const string MyKillshotRegex = @"\[.*\] You have slain (.*)!";
+        public const string OtherKillshotRegex = @"\[.*\] (.*) has been slain by .*!";
+        public const string DiedRegex = @"\[.*\] (.*) died.";
+        public const string PetLeaderRegex = @"\[(.*)\] (.+) says 'My leader is (\w+).'";
+        public static string PetAttackRegex = @"";
     }
 }
