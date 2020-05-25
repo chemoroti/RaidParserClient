@@ -12,9 +12,9 @@ namespace DamageParser.ClientApp
 {
     public class BattleWatcher
     {
-        public delegate void OnBattleEnd(CombatantFightInfo fightInfo);
+        public delegate void OnBattleEnd(CombatantFightInfo _individualFightInfo);
         public event OnBattleEnd OnBattleEndEvent;
-        public delegate void OnBattleUpdate(CombatantFightInfo fightInfo);
+        public delegate void OnBattleUpdate(List<CombatantFightInfo> fightInfos);
         public event OnBattleUpdate OnBattleUpdateEvent;
 
         private DateTime _firstInteractionTime;
@@ -22,7 +22,8 @@ namespace DamageParser.ClientApp
         private const int _battleTimeoutSeconds = 10;
         private string _currentOpponent;
         private string _playerName;
-        private CombatantFightInfo _fightInfo;
+        private CombatantFightInfo _individualFightInfo;
+        private List<CombatantFightInfo> _raidFightInfo;
         private bool _fightOngoing;
         private FileWatcher _fileWatcher { get; }
 
@@ -53,7 +54,8 @@ namespace DamageParser.ClientApp
             var ws = new WebSocket("ws://localhost:4649/BattleAggregator");
             ws.OnMessage += (sender, e) =>
             {
-                
+                _raidFightInfo = JsonConvert.DeserializeObject<List<CombatantFightInfo>>(e.Data);
+                Console.WriteLine("message");
             };
 
             ws.OnError += (sender, e) => {
@@ -75,7 +77,7 @@ namespace DamageParser.ClientApp
             {
                 if(_fightOngoing)
                 {
-                    string serialized = JsonConvert.SerializeObject(_fightInfo);
+                    string serialized = JsonConvert.SerializeObject(_individualFightInfo);
                     ws.Send(serialized);
                 }
 
@@ -90,7 +92,10 @@ namespace DamageParser.ClientApp
             {
                 if (_fightOngoing && OnBattleUpdateEvent != null)
                 {
-                    OnBattleUpdateEvent.Invoke(_fightInfo); //notify subscribers
+                    if (_raidFightInfo != null)
+                        OnBattleUpdateEvent.Invoke(_raidFightInfo); //notify subscribers
+                    else
+                        OnBattleUpdateEvent.Invoke(new List<CombatantFightInfo>() { _individualFightInfo });
                 }
 
                 Thread.Sleep(3000);
@@ -149,7 +154,7 @@ namespace DamageParser.ClientApp
                     {
                         Thread.Sleep(2000);
                         if (OnBattleUpdateEvent != null)
-                            OnBattleUpdateEvent.Invoke(_fightInfo);
+                            OnBattleUpdateEvent.Invoke(new List<CombatantFightInfo>() { _individualFightInfo });
                         ClearBattle();
                     }
                 }
@@ -158,7 +163,7 @@ namespace DamageParser.ClientApp
 
         private void StartNewFight(Interaction interaction)
         {
-            _fightInfo = new CombatantFightInfo(interaction, _playerName);
+            _individualFightInfo = new CombatantFightInfo(interaction, _playerName);
             _lastInteractionTime = interaction.Time;
             _currentOpponent = interaction.OpponentName;
             _fightOngoing = true;
@@ -167,19 +172,20 @@ namespace DamageParser.ClientApp
 
         private void UpdateCurrentFight(Interaction interaction)
         {
-            _fightInfo.UpdateDamageStats(interaction.HitAmount);
+            _individualFightInfo.UpdateDamageStats(interaction.HitAmount);
             _lastInteractionTime = interaction.Time;
         }
 
         private void ClearBattle()
         {
             if (OnBattleEndEvent != null)
-                OnBattleEndEvent.Invoke(_fightInfo);
+                OnBattleEndEvent.Invoke(_individualFightInfo);
 
             _firstInteractionTime = DateTime.Now;
             _lastInteractionTime = DateTime.Now;
             _currentOpponent = null;
-            _fightInfo = null;
+            _individualFightInfo = null;
+            _raidFightInfo = null;
             _fightOngoing = false;
         }
 

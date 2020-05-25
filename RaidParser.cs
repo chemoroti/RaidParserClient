@@ -25,11 +25,6 @@ namespace DamageParser
         {
             InitializeComponent();
             _overlay = new FightOverlay("");
-
-            if (displayOverlayCheckBox.Checked)
-            {
-                _overlay.Show();
-            }
         }
 
         private void FileUploadButton_Click(object sender, EventArgs e)
@@ -77,9 +72,9 @@ namespace DamageParser
         private void DisplayOverlayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (displayOverlayCheckBox.Checked)
-                _overlay.Show();
+                _overlay.Visible = true;
             else
-                _overlay.Hide();
+                _overlay.Visible = false;
         }
 
         private void SetOverlayPositionButton_Click(object sender, EventArgs e)

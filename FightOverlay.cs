@@ -31,31 +31,54 @@ namespace DamageParser
             TransparencyKey = Color.LimeGreen;
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if(!this.Visible)
+            {
+                Watcher.OnBattleEndEvent -= OnBattleEndEvent;
+                Watcher.OnBattleUpdateEvent -= OnBattleUpdateEvent;
+                Clear();
+            }
+            else
+            {
+                Watcher.OnBattleEndEvent += OnBattleEndEvent;
+                Watcher.OnBattleUpdateEvent += OnBattleUpdateEvent;
+            }
+        }
+
         public void AddBattleWatcher(BattleWatcher watcher)
         {
             Watcher = watcher;
             Combatants = new Dictionary<string, CombatantFightInfo>();
-            Watcher.OnBattleEndEvent += OnBattleEndEvent;
-            Watcher.OnBattleUpdateEvent += OnBattleUpdateEvent;
+            if(Visible)
+            {
+                Watcher.OnBattleEndEvent += OnBattleEndEvent;
+                Watcher.OnBattleUpdateEvent += OnBattleUpdateEvent;
+            }
             overlayFlowLayoutPanel.FlowDirection = FlowDirection.TopDown;
         }
 
-        private void OnBattleUpdateEvent(CombatantFightInfo fightInfo)
+        private void OnBattleUpdateEvent(List<CombatantFightInfo> fightInfos)
         {
-            string combatantName = fightInfo.GetCombatantName();
-            if (!Combatants.ContainsKey(combatantName))
+            foreach(CombatantFightInfo fightInfo in fightInfos)
             {
-                Combatants.Add(combatantName, fightInfo);
+                string combatantName = fightInfo.GetCombatantName();
+                if (!Combatants.ContainsKey(combatantName))
+                {
+                    Combatants.Add(combatantName, fightInfo);
+                }
+                else
+                {
+                    Combatants[combatantName] = fightInfo;
+                }
             }
-            else
-            {
-                Combatants[combatantName] = fightInfo;
-            }
-
+            
             UpdateGrid(GetGridInfo());
         }
 
-        public GridInfo GetGridInfo()
+        private GridInfo GetGridInfo()
         {
             GridInfo gridInfo = new GridInfo();
             gridInfo.Header = GetOutputRow(Watcher.GetBattleHeaderInfo(), true);
@@ -99,7 +122,7 @@ namespace DamageParser
             Clear();
         }
 
-        public void UpdateGrid(GridInfo gridInfo)
+        private void UpdateGrid(GridInfo gridInfo)
         {
             if (gridInfo.CombatantOutputs.Count == 0)
                 return;
@@ -159,7 +182,7 @@ namespace DamageParser
 
         }
 
-        public void Clear()
+        private void Clear()
         {
             Combatants = new Dictionary<string, CombatantFightInfo>();
             this.Invoke(new MethodInvoker(delegate ()
@@ -168,7 +191,7 @@ namespace DamageParser
             }));
         }
 
-        public class GridInfo
+        private class GridInfo
         {
             public Label Header;
             public List<Label> CombatantOutputs;

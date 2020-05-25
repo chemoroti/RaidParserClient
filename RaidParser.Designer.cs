@@ -65,6 +65,8 @@
             // displayOverlayCheckBox
             // 
             this.displayOverlayCheckBox.AutoSize = true;
+            this.displayOverlayCheckBox.Checked = true;
+            this.displayOverlayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.displayOverlayCheckBox.Location = new System.Drawing.Point(16, 88);
             this.displayOverlayCheckBox.Name = "displayOverlayCheckBox";
             this.displayOverlayCheckBox.Size = new System.Drawing.Size(99, 17);

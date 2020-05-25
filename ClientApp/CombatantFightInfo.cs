@@ -15,6 +15,7 @@ namespace DamageParser.ClientApp
         public int TotalDamage { get; set; }
         public int DPS { get; set; }
         public string RaidId = "123";
+        public CombatantFightInfo() { }
         public CombatantFightInfo(Interaction interaction, string combatantName)
         {
             OpponentName = interaction.OpponentName;
